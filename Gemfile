@@ -35,6 +35,7 @@ group :development, :test do
 end
 
 group :development do
+gem 'ruby-debug-ide'
 end
 
 group :test do
