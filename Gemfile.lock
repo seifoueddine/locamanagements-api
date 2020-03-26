@@ -122,6 +122,9 @@ GEM
     concurrent-ruby (1.1.6)
     crass (1.0.6)
     database_cleaner (1.8.3)
+    debase (0.2.4.1)
+      debase-ruby_core_source (>= 0.10.2)
+    debase-ruby_core_source (0.10.9)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -248,6 +251,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   database_cleaner
+  debase
   devise_token_auth
   factory_bot_rails
   faker!

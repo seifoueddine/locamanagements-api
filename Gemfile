@@ -36,6 +36,8 @@ end
 
 group :development do
 gem 'ruby-debug-ide'
+gem 'debase'
+gem 'rswag'
 end
 
 group :test do

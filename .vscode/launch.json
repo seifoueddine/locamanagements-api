@@ -1,0 +1,69 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start Rails server",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3000"
+            ]
+        },
+        {
+            "name": "Debug Rails server",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "useBundler": true,
+            "pathToBundler": "/c/Ruby26-x64/bin/bundle",
+            "pathToRDebugIDE": "C:/Ruby26-x64/lib/ruby/gems/2.6.0/gems/ruby-debug-ide-0.7.0",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3000"
+            ]
+        },
+        {
+            "name": "Run RSpec - all",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "/path/to/rubygem/bin/rspec",
+            "args": [
+                "--pattern",
+                "${workspaceRoot}/spec/**/*_rspec.rb"
+            ]
+        },
+        {
+            "name": "Debug RSpec - open spec file",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "useBundler": true,
+            "pathToBundler": "/c/Ruby26-x64/bin/bundle",
+            "pathToRDebugIDE": "C:/Ruby26-x64/lib/ruby/gems/2.6.0/gems/ruby-debug-ide-0.7.0",
+            "debuggerPort": "1235",
+            "program": "/path/to/rubygem/bin/rspec",
+            "args": [
+                "${file}"
+            ]
+        },
+        {
+          "name": "Debug RSpec - open spec file on a certain line",
+          "type": "Ruby",
+          "request": "launch",
+          "cwd": "${workspaceRoot}",
+          "useBundler": true,
+          "pathToBundler": "/c/Ruby26-x64/bin/bundle",
+          "pathToRDebugIDE": "C:/Ruby26-x64/lib/ruby/gems/2.6.0/gems/ruby-debug-ide-0.7.0",
+          "debuggerPort": "1235",
+          "program": "/path/to/rubygem/bin/rspec",
+          "args": ["${file}:${lineNumber}"]
+        }
+    ]
+}
