@@ -1,11 +1,12 @@
 class Api::V1::UsersController < ApplicationController
- # before_action :authenticate_user!
+  #before_action :authenticate_user!
   before_action :set_user, only: [:show, :update, :destroy]
+
 
   # GET /users
   def index
-    @users = User.all
-
+    @users = User.order(order).page(page).per(per_page)
+    set_pagination_headers :users
     render json: @users
   end
 
