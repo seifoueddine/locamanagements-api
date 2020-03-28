@@ -5,7 +5,8 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.order(order).page(page).per(per_page)
+
+    @users = User.order(order_and_direction).page(page).per(per_page)
     set_pagination_headers :users
     render json: @users
   end

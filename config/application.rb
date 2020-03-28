@@ -39,7 +39,7 @@ module PostgreSQLApi
         origins '*' 
         resource '*',
         headers: :any,
-        expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+        expose: ['access-token', 'expiry', 'token-type', 'uid', 'client','X-Total-Count', 'Link'],
         methods: [:get, :post, :options, :delete, :put, :patch]
       end
     end
