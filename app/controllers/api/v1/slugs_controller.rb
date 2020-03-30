@@ -19,7 +19,7 @@ class Api::V1::SlugsController < ApplicationController
     @slug = Slug.new(slug_params)
 
     if @slug.save
-      render json: @slug, status: :created, location: @slug
+      render json: @slug, status: :created
     else
       render json: @slug.errors, status: :unprocessable_entity
     end
