@@ -1,10 +1,10 @@
-class PropertiesController < ApplicationController
+class Api::V1::PropertiesController < ApplicationController
   before_action :set_property, only: [:show, :update, :destroy]
 
   # GET /properties
   def index
-    @properties = Property.all
-
+    @properties = Property.order(order_and_direction).page(page).per(per_page)
+    set_pagination_headers :properties
     render json: @properties
   end
 
@@ -18,7 +18,7 @@ class PropertiesController < ApplicationController
     @property = Property.new(property_params)
 
     if @property.save
-      render json: @property, status: :created, location: @property
+      render json: @property, status: :created
     else
       render json: @property.errors, status: :unprocessable_entity
     end
