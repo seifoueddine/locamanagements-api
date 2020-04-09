@@ -3,9 +3,11 @@ class Api::V1::PropertiesController < ApplicationController
 
   # GET /properties
   def index
+    params.transform_keys { |key| key.to_s.underscore }
     @properties = Property.order(order_and_direction).page(page).per(per_page)
     set_pagination_headers :properties
-    render json: @properties
+    json_string = PropertySerializer.new(@properties).serialized_json
+    render  json: json_string
   end
 
   # GET /properties/1
@@ -17,7 +19,7 @@ class Api::V1::PropertiesController < ApplicationController
   def create
     @property = Property.new(property_params)
 
-    if @property.save
+    if @property.save!
       render json: @property, status: :created
     else
       render json: @property.errors, status: :unprocessable_entity
@@ -46,6 +48,6 @@ class Api::V1::PropertiesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def property_params
-      params.require(:property).permit(:label)
+      params.permit(:label, :contact_id, :slug_id)
     end
 end
