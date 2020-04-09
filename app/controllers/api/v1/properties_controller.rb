@@ -3,10 +3,9 @@ class Api::V1::PropertiesController < ApplicationController
 
   # GET /properties
   def index
-    params.transform_keys { |key| key.to_s.underscore }
     @properties = Property.order(order_and_direction).page(page).per(per_page)
     set_pagination_headers :properties
-    json_string = PropertySerializer.new(@properties).serialized_json
+    json_string = PropertySerializer.new(@properties, include: [:contact]).serialized_json
     render  json: json_string
   end
 

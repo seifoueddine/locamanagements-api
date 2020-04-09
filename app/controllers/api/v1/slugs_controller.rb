@@ -5,8 +5,8 @@ class Api::V1::SlugsController < ApplicationController
   def index
     @slugs = Slug.order(order_and_direction).page(page).per(per_page)
     set_pagination_headers :slugs
-
-    render json: @slugs
+    json_string = SlugSerializer.new(@slugs).serialized_json
+    render  json: json_string
   end
 
   # GET /slugs/1

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
         private
 
         def order_and_direction
-          @order ||= (params[:order].underscore + ' ' + params[:direction]) || 'name'
+          @order ||= (params[:order].underscore + ' ' + params[:direction]) || 'created_at asc'
         end
 
         def page

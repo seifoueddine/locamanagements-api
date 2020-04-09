@@ -5,7 +5,10 @@ class Api::V1::ContactsController < ApplicationController
   def index
     @contacts = Contact.order(order_and_direction).page(page).per(per_page).where(roles: params[:role])
     set_pagination_headers :contacts
-    render json: @contacts
+    json_string = ContactSerializer.new(@contacts, include: [:properties]).serialized_json
+    render json: json_string
+
+
   end
 
   # GET /contacts/1
