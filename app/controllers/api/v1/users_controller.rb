@@ -8,7 +8,8 @@ class Api::V1::UsersController < ApplicationController
 
     @users = User.order(order_and_direction).page(page).per(per_page)
     set_pagination_headers :users
-    render json: @users
+    json_string = UserSerializer.new(@users, include: [:slug]).serialized_json
+    render  json: json_string
   end
 
   # GET /users/1
