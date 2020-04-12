@@ -51,7 +51,18 @@ class Api::V1::ContactsController < ApplicationController
 
   # DELETE /contacts/1
   def destroy
-    @contact.destroy
+
+    begin
+      @contact.destroy
+
+    rescue ActiveRecord::InvalidForeignKey => e
+      render json: {
+          code: 'E001',
+          message: 'This contact has a property'
+      },  status: 406
+
+    end
+
   end
 
   private
