@@ -1,5 +1,5 @@
 class Api::V1::ContactsController < ApplicationController
-  before_action :set_contact, only: %i[show update destroy]
+  before_action :set_contact, only: %i[show update]
 
   # GET /contacts
   def index
@@ -51,21 +51,25 @@ class Api::V1::ContactsController < ApplicationController
 
   # DELETE /contacts/1
   def destroy
-
-    begin
-      @contact.destroy
-
-    rescue ActiveRecord::InvalidForeignKey => e
-      render json: {
-          code: 'E001',
-          message: 'This contact has a property'
-      },  status: 406
-
+    ids = params[:id].split(',')
+    if ids.length != 1
+      Contact.where(id: params[:id].split(',')).destroy_all
+    else
+      Contact.find(params[:id]).destroy
     end
+
+  rescue ActiveRecord::InvalidForeignKey => e
+  render json: {
+      code: 'E001',
+      message: 'This contact has a property'
+  },  status: 406
+
+
 
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_contact
     @contact = Contact.find(params[:id])
