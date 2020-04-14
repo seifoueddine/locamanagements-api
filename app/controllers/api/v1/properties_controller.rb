@@ -41,12 +41,12 @@ class Api::V1::PropertiesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_property
-      @property = Property.find(params[:id])
-    end
+  def set_property
+    @property = Property.find(params[:id])
+  end
 
     # Only allow a trusted parameter "white list" through.
-    def property_params
-      params.permit(:label, :contact_id, :slug_id)
-    end
+  def property_params
+    params.permit(:label, :contact_id, :slug_id, { images: [] })
+  end
 end

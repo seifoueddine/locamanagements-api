@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_05_175942) do
+ActiveRecord::Schema.define(version: 2020_04_14_172603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2020_04_05_175942) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "slug_id", null: false
     t.bigint "contact_id", null: false
+    t.string "images", default: [], array: true
     t.index ["contact_id"], name: "index_properties_on_contact_id"
     t.index ["slug_id"], name: "index_properties_on_slug_id"
   end
