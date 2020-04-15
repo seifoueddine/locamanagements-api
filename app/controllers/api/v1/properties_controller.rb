@@ -3,10 +3,21 @@ class Api::V1::PropertiesController < ApplicationController
 
   # GET /properties
   def index
-    @properties = Property.order(order_and_direction).page(page).per(per_page)
+
+    if params[:search].blank?
+      @properties = Property.order(order_and_direction).page(page).per(per_page)
+    else
+      @properties = Property.joins(:contact).order(order_and_direction)
+                            .page(page).per(per_page)
+                            .where(['lower(label) like ? or lower(contacts.name) like ? ',
+                                    '%' + params[:search].downcase + '%',
+                                    '%' + params[:search].downcase + '%' ] )
+    end
+
     set_pagination_headers :properties
     json_string = PropertySerializer.new(@properties, include: [:contact]).serialized_json
     render  json: json_string
+
   end
 
   # GET /properties/1

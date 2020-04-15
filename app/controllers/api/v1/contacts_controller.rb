@@ -9,9 +9,9 @@ class Api::V1::ContactsController < ApplicationController
                          .where(roles: params[:role])
     else
       @contacts = Contact.order(order_and_direction).page(page).per(per_page)
-                         .where(["roles = ? and (name like ? or email like ? or
+                         .where(["roles = ? and (lower(name) like ? or email like ? or
                          first_phone like ? or second_phone like ? )",
-                                 params[:role], '%' + params[:search] + '%',
+                                 params[:role], '%' + params[:search].downcase + '%',
                                  '%' + params[:search] + '%',
                                  '%' + params[:search] + '%',
                                  '%' + params[:search] + '%'])
@@ -78,6 +78,6 @@ class Api::V1::ContactsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def contact_params
-    params.permit(:name, :first_phone, :email, :second_phone, :roles)
+    params.permit(:name, :first_phone, :email, :second_phone, :roles, :slug_id)
   end
 end
