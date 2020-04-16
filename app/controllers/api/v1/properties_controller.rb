@@ -3,7 +3,7 @@ class Api::V1::PropertiesController < ApplicationController
 
   # GET /properties
   def index
-
+    
     if params[:search].blank?
       @properties = Property.order(order_and_direction).page(page).per(per_page)
     else
@@ -16,13 +16,15 @@ class Api::V1::PropertiesController < ApplicationController
 
     set_pagination_headers :properties
     json_string = PropertySerializer.new(@properties, include: [:contact]).serialized_json
-    render  json: json_string
+    render json: json_string
 
   end
 
   # GET /properties/1
   def show
-    render json: @property
+    json_string = PropertySerializer.new(@property, include: [:contact])
+                                    .serialized_json
+    render json: json_string
   end
 
   # POST /properties

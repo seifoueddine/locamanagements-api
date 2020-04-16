@@ -27,7 +27,9 @@ class Api::V1::ContactsController < ApplicationController
 
   # GET /contacts/1
   def show
-    render json: @contact
+    json_string = ContactSerializer.new(@contact, include: [:properties])
+                      .serialized_json
+    render json: json_string
   end
 
   # POST /contacts
