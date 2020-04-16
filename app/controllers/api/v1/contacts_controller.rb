@@ -34,6 +34,8 @@ class Api::V1::ContactsController < ApplicationController
 
   # POST /contacts
   def create
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
     @contact = Contact.new(contact_params)
 
     if @contact.save

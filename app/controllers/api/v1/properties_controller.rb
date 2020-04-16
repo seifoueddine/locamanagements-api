@@ -3,7 +3,7 @@ class Api::V1::PropertiesController < ApplicationController
 
   # GET /properties
   def index
-    
+
     if params[:search].blank?
       @properties = Property.order(order_and_direction).page(page).per(per_page)
     else
@@ -29,6 +29,8 @@ class Api::V1::PropertiesController < ApplicationController
 
   # POST /properties
   def create
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
     @property = Property.new(property_params)
 
     if @property.save!
