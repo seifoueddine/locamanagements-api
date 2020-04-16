@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_180832) do
+ActiveRecord::Schema.define(version: 2020_04_16_181113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,24 @@ ActiveRecord::Schema.define(version: 2020_04_14_180832) do
     t.bigint "slug_id", null: false
     t.bigint "contact_id", null: false
     t.string "images", default: [], array: true
+    t.string "type"
+    t.string "surface"
+    t.string "address"
+    t.string "wilaya"
+    t.string "city"
+    t.string "owner_price"
+    t.string "agency_price"
+    t.string "transaction_type"
+    t.integer "nbr_of_pieces"
+    t.boolean "is_furnished"
+    t.boolean "is_equipped"
+    t.boolean "has_elevator"
+    t.integer "has_floors"
+    t.integer "floor"
+    t.boolean "has_garage"
+    t.boolean "has_garden"
+    t.boolean "has_swimming_pool"
+    t.boolean "has_sanitary"
     t.index ["contact_id"], name: "index_properties_on_contact_id"
     t.index ["slug_id"], name: "index_properties_on_slug_id"
   end
