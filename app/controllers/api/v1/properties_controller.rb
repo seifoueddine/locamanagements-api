@@ -1,5 +1,5 @@
 class Api::V1::PropertiesController < ApplicationController
-  before_action :set_property, only: [:show, :update, :destroy]
+  before_action :set_property, only: %i[show update destroy]
 
   # GET /properties
   def index
@@ -9,13 +9,15 @@ class Api::V1::PropertiesController < ApplicationController
     else
       @properties = Property.joins(:contact).order(order_and_direction)
                             .page(page).per(per_page)
-                            .where(['lower(label) like ? or lower(contacts.name) like ? ',
+                            .where(['lower(label) like ?
+                                     or lower(contacts.name) like ? ',
                                     '%' + params[:search].downcase + '%',
-                                    '%' + params[:search].downcase + '%' ] )
+                                    '%' + params[:search].downcase + '%'])
     end
 
     set_pagination_headers :properties
-    json_string = PropertySerializer.new(@properties, include: [:contact]).serialized_json
+    json_string = PropertySerializer.new(@properties, include: [:contact])
+                                    .serialized_json
     render json: json_string
 
   end

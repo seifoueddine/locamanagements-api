@@ -4,31 +4,34 @@ class Api::V1::ContactsController < ApplicationController
 
   # GET /contacts
   def index
-    if params[:search].blank?
-      @contacts = Contact.order(order_and_direction).page(page).per(per_page)
-                         .where(roles: params[:role])
-    else
-      @contacts = Contact.order(order_and_direction).page(page).per(per_page)
-                         .where(["roles = ? and (lower(name) like ? or email like ? or
-                         first_phone like ? or second_phone like ? )",
-                                 params[:role], '%' + params[:search].downcase + '%',
-                                 '%' + params[:search] + '%',
-                                 '%' + params[:search] + '%',
-                                 '%' + params[:search] + '%'])
-    end
 
-    set_pagination_headers :contacts
+    if params[:all].blank?
+      if params[:search].blank?
+        @contacts = Contact.order(order_and_direction).page(page).per(per_page)
+                           .where(roles: params[:role])
+      else
+        @contacts = Contact.order(order_and_direction).page(page).per(per_page)
+                           .where(["roles = ? and (lower(name) like ? or email
+                                  like ? or first_phone like ? or second_phone
+                                  like ? )", params[:role],
+                                '%' + params[:search].downcase + '%',
+                                '%' + params[:search] + '%',
+                                '%' + params[:search] + '%',
+                                '%' + params[:search] + '%'])
+      end
+      set_pagination_headers :contacts
+    else
+      @contacts = Contact.all.where(roles: params[:role])
+    end
     json_string = ContactSerializer.new(@contacts, include: [:properties])
                                    .serialized_json
     render json: json_string
-
-
   end
 
   # GET /contacts/1
   def show
     json_string = ContactSerializer.new(@contact, include: [:properties])
-                      .serialized_json
+                                   .serialized_json
     render json: json_string
   end
 
