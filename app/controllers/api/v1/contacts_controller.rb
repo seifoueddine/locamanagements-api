@@ -14,10 +14,10 @@ class Api::V1::ContactsController < ApplicationController
                            .where(["roles = ? and (lower(name) like ? or email
                                   like ? or first_phone like ? or second_phone
                                   like ? )", params[:role],
-                                '%' + params[:search].downcase + '%',
-                                '%' + params[:search] + '%',
-                                '%' + params[:search] + '%',
-                                '%' + params[:search] + '%'])
+                                  '%' + params[:search].downcase + '%',
+                                  '%' + params[:search] + '%',
+                                  '%' + params[:search] + '%',
+                                  '%' + params[:search] + '%'])
       end
       set_pagination_headers :contacts
     else

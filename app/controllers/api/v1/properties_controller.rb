@@ -1,5 +1,5 @@
 class Api::V1::PropertiesController < ApplicationController
-  before_action :set_property, only: %i[show update destroy]
+  before_action :set_property, only: %i[show update]
 
   # GET /properties
   def index
@@ -53,7 +53,18 @@ class Api::V1::PropertiesController < ApplicationController
 
   # DELETE /properties/1
   def destroy
-    @property.destroy
+    ids = params[:id].split(',')
+    if ids.length != 1
+      Property.where(id: params[:id].split(',')).destroy_all
+    else
+      Property.find(params[:id]).destroy
+    end
+
+  rescue ActiveRecord::InvalidForeignKey => e
+    render json: {
+        code: 'E001',
+        message: 'This contact has a property'
+    },  status: 406
   end
 
   private
@@ -64,6 +75,11 @@ class Api::V1::PropertiesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
   def property_params
-    params.permit(:label, :contact_id, :slug_id, { images: [] })
+    params.permit(:label, :contact_id, :slug_id, { images: [] }, :property_type,
+                  :surface, :address, :wilaya, :city, :owner_price,
+                  :agency_price, :transaction_type, :nbr_of_pieces,
+                  :is_furnished, :is_equipped, :has_elevator, :has_floors,
+                  :floor, :has_garage, :has_garden, :has_swimming_pool,
+                  :has_sanitary)
   end
 end
