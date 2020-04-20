@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_014144) do
+ActiveRecord::Schema.define(version: 2020_04_19_195410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_014144) do
     t.boolean "has_garden"
     t.boolean "has_swimming_pool"
     t.boolean "has_sanitary"
+    t.text "description"
     t.index ["contact_id"], name: "index_properties_on_contact_id"
     t.index ["slug_id"], name: "index_properties_on_slug_id"
   end
