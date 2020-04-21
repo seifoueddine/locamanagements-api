@@ -3,17 +3,35 @@ class Api::V1::PropertiesController < ApplicationController
 
   # GET /properties
   def index
+    transactionTypeArray = %w[sell rent]
+    propertyTypeArray = %w[1 2]
+    @properties = if params[:search].blank? && params[:transactionType].blank? && params[:propertyType].blank?
+                    Property.order(order_and_direction).page(page).per(per_page)
+                  elsif params[:search].blank?
 
-    if params[:search].blank?
-      @properties = Property.order(order_and_direction).page(page).per(per_page)
-    else
-      @properties = Property.joins(:contact).order(order_and_direction)
+                    unless params[:transactionType].blank?
+                      transactionTypeArray = params[:transactionType].split(',')
+                    end
+                    unless params[:propertyType].blank?
+                      propertyTypeArray = params[:propertyType].split(',')
+                    end
+
+                    transactionTypeParams = transactionTypeArray.length > 1 ? transactionTypeArray : params[:transactionType]
+                    propertyTypeParams =  propertyTypeArray.length > 1 ? propertyTypeArray : params[:propertyType]
+                    Property.joins(:contact).order(order_and_direction)
+                            .page(page).per(per_page)
+                            .where(transaction_type: transactionTypeParams, property_type: propertyTypeParams)
+
+                  else
+                    Property.joins(:contact).order(order_and_direction)
                             .page(page).per(per_page)
                             .where(['lower(label) like ?
-                                     or lower(contacts.name) like ? ',
-                                    '%' + params[:search].downcase + '%',
-                                    '%' + params[:search].downcase + '%'])
-    end
+                                     or lower(contacts.name) like ?',
+                                     '%' + params[:search].downcase + '%',
+                                     '%' + params[:search].downcase + '%',
+                                   ])
+
+                  end
 
     set_pagination_headers :properties
     json_string = PropertySerializer.new(@properties, include: [:contact])
