@@ -1,8 +1,9 @@
 class Api::V1::PropertiesController < ApplicationController
   before_action :set_property, only: %i[show update]
-
   # GET /properties
   def index
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
     transactionTypeArray = %w[sell rent]
     propertyTypeArray = %w[1 2]
     greaterThan = 0
@@ -99,12 +100,13 @@ class Api::V1::PropertiesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+  # Use callbacks to share common setup or constraints between actions.
   def set_property
     @property = Property.find(params[:id])
   end
 
-    # Only allow a trusted parameter "white list" through.
+  # Only allow a trusted parameter "white list" through.
   def property_params
     params.permit(:label, :contact_id, :slug_id, { images: [] }, :property_type,
                   :surface, :address, :wilaya, :city, :owner_price,

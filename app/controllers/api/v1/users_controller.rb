@@ -1,12 +1,26 @@
 class Api::V1::UsersController < ApplicationController
-  #before_action :authenticate_user!
-  before_action :set_user, only: [:show, :update, :destroy]
+  # before_action :authenticate_user!
+  before_action :set_user, only: %i[show update destroy]
 
 
   # GET /users
   def index
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
+    @users = if params[:slug_id].blank?
+               User.order(order_and_direction).page(page).per(per_page)
+             elsif params[:search].blank?
+               User.order(order_and_direction).page(page).per(per_page)
+                   .where(slug_id: params[:slug_id])
+             else
 
-    @users = User.order(order_and_direction).page(page).per(per_page)
+               User.order(order_and_direction).page(page).per(per_page).where(slug_id: params[:slug_id])
+                   .where(['lower(name) like ?
+                            or lower(email) like ?',
+                                    '%' + params[:search].downcase + '%',
+                                    '%' + params[:search].downcase + '%',
+                                    ])
+             end
     set_pagination_headers :users
     json_string = UserSerializer.new(@users, include: [:slug]).serialized_json
     render  json: json_string
@@ -19,8 +33,9 @@ class Api::V1::UsersController < ApplicationController
 
   # POST /users
   def create
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
     @user = User.new(user_params)
-     
     if @user.save
       render json: @user, status: :created
     else
@@ -44,12 +59,12 @@ class Api::V1::UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def set_user
+    @user = User.find(params[:id])
+  end
 
     # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.permit(:email, :password,  :name, :slug_id, :avatar, :role)
-    end
+  def user_params
+    params.permit(:email, :password, :name, :slug_id, :avatar, :role)
+  end
 end
