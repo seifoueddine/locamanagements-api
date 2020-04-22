@@ -5,22 +5,35 @@ class Api::V1::PropertiesController < ApplicationController
   def index
     transactionTypeArray = %w[sell rent]
     propertyTypeArray = %w[1 2]
-    @properties = if params[:search].blank? && params[:transactionType].blank? && params[:propertyType].blank?
+    greaterThan = 0
+    lessThan = 999999999
+    @properties = if params[:search].blank? && params[:transactionType].blank? && params[:propertyType].blank? && params[:greaterThan].blank? && params[:lessThan].blank?
                     Property.order(order_and_direction).page(page).per(per_page)
                   elsif params[:search].blank?
 
                     unless params[:transactionType].blank?
                       transactionTypeArray = params[:transactionType].split(',')
                     end
+
                     unless params[:propertyType].blank?
                       propertyTypeArray = params[:propertyType].split(',')
                     end
+
+                    unless params[:greaterThan].blank?
+                      greaterThan = params[:greaterThan].to_i
+                    end
+
+                    unless params[:lessThan].blank?
+                      lessThan = params[:lessThan].to_i
+                    end
+
 
                     transactionTypeParams = transactionTypeArray.length > 1 ? transactionTypeArray : params[:transactionType]
                     propertyTypeParams =  propertyTypeArray.length > 1 ? propertyTypeArray : params[:propertyType]
                     Property.joins(:contact).order(order_and_direction)
                             .page(page).per(per_page)
-                            .where(transaction_type: transactionTypeParams, property_type: propertyTypeParams)
+                            .where(transaction_type: transactionTypeParams, property_type: propertyTypeParams,
+                                   agency_price: greaterThan..lessThan)
 
                   else
                     Property.joins(:contact).order(order_and_direction)
