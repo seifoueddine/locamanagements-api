@@ -20,6 +20,8 @@ gem 'fast_jsonapi'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 gem 'carrierwave', '~> 2.0'
+#gem 'mini_magick'
+gem 'rmagick'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'actionview', '~> 6.0', '>= 6.0.2.2'

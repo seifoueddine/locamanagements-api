@@ -34,7 +34,7 @@ class Api::V1::UsersController < ApplicationController
   # POST /users
   def create
     slug_id = get_slug_id
-    params[:slug_id] = slug_id
+    params[:slug_id] = slug_id unless slug_id.blank?
     @user = User.new(user_params)
     if @user.save
       render json: @user, status: :created
