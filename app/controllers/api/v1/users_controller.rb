@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   # before_action :authenticate_user!
-  before_action :set_user, only: %i[show update destroy]
+  before_action :set_user, only: %i[show update]
 
 
   # GET /users
@@ -54,7 +54,12 @@ class Api::V1::UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    @user.destroy
+    ids = params[:id].split(',')
+    if ids.length != 1
+      User.where(id: params[:id].split(',')).destroy_all
+    else
+      User.find(params[:id]).destroy
+    end
   end
 
   private
