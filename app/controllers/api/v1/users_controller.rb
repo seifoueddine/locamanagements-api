@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   # before_action :authenticate_user!
-  before_action :set_user, only: %i[show update]
+  before_action :set_user, only: %i[show update change_password]
 
 
   # GET /users
@@ -29,6 +29,14 @@ class Api::V1::UsersController < ApplicationController
   # GET /users/1
   def show
     render json: @user
+  end
+
+  def change_password
+    if @user.update(user_params)
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
 
   # POST /users
