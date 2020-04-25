@@ -8,5 +8,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
   belongs_to :slug
+  has_many :appointments
   mount_uploader :avatar, AvatarUploader
 end

@@ -3,4 +3,5 @@ class Slug < ApplicationRecord
     has_many :users , dependent: :destroy
     has_many :properties , dependent: :destroy
     has_many :contacts , dependent: :destroy
+    has_many :appointments, dependent: :destroy
 end
