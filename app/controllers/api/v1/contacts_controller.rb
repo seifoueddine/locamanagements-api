@@ -4,13 +4,15 @@ class Api::V1::ContactsController < ApplicationController
 
   # GET /contacts
   def index
-
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
     if params[:all].blank?
       if params[:search].blank?
         @contacts = Contact.order(order_and_direction).page(page).per(per_page)
-                           .where(roles: params[:role])
+                           .where(slug_id: params[:slug_id], roles: params[:role])
       else
         @contacts = Contact.order(order_and_direction).page(page).per(per_page)
+                           .where(slug_id: params[:slug_id])
                            .where(["roles = ? and (lower(name) like ? or email
                                   like ? or first_phone like ? or second_phone
                                   like ? )", params[:role],
