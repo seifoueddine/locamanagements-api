@@ -28,7 +28,8 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @user
+    json_string = UserSerializer.new(@user, include: [:slug]).serialized_json
+    render  json: json_string
   end
 
   def change_password
