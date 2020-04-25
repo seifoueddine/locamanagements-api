@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       put 'users/change_password/:id', to: 'users#change_password'
       resources :contacts
       resources :properties
+      resources :appointments
     end
    end
 
