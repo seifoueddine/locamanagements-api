@@ -84,7 +84,7 @@ class Api::V1::AppointmentsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def appointment_params
     params.permit(:label, :description, :status, :contact_id, :slug_id,
-                  :property_id, :service, :user_id, :start_time)
+                  :property_id, :service, :user_id, :start_time, :important)
   end
   
   
