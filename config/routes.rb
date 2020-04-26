@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :slugs
       resources :users
       put 'users/change_password/:id', to: 'users#change_password'
+      get 'appointments/calendar_appointments', to: 'appointments#calendar_appointments'
       resources :contacts
       resources :properties
       resources :appointments

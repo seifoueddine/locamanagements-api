@@ -26,6 +26,18 @@ class Api::V1::AppointmentsController < ApplicationController
     render json: json_string
   end
 
+  # GET /appointments-calendar
+  def calendar_appointments
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
+    @appointments = Appointment.where(slug_id: params[:slug_id]).where(start_time: params[:firstDay]..params[:lastDay])
+
+
+    json_string = AppointmentSerializer.new(@appointments, include: %i[property contact])
+                                       .serialized_json
+    render json: json_string
+  end
+
   # GET /appointments/1
   def show
     json_string = AppointmentSerializer.new(@appointment, include: %i[properties contacts])
@@ -35,8 +47,8 @@ class Api::V1::AppointmentsController < ApplicationController
 
   # POST /appointments
   def create
-    slug_id = get_slug_id
-    params[:slug_id] = slug_id
+    #slug_id = get_slug_id
+    #params[:slug_id] = slug_id
     @appointment = Appointment.new(appointment_params)
 
     if @appointment.save
