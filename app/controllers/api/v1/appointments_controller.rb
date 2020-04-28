@@ -47,8 +47,8 @@ class Api::V1::AppointmentsController < ApplicationController
 
   # POST /appointments
   def create
-    #slug_id = get_slug_id
-    #params[:slug_id] = slug_id
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
     @appointment = Appointment.new(appointment_params)
 
     if @appointment.save
