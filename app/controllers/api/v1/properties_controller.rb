@@ -1,4 +1,5 @@
 class Api::V1::PropertiesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_property, only: %i[show update]
   # GET /properties
   def index
