@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :contacts
       resources :properties
       resources :appointments
+      notify_to :users, api_mode: true, with_subscription: true
     end
    end
 

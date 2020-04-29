@@ -10,4 +10,5 @@ class User < ActiveRecord::Base
   belongs_to :slug
   has_many :appointments
   mount_uploader :avatar, AvatarUploader
+  acts_as_target action_cable_allowed: true
 end
