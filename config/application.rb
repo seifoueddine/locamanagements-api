@@ -23,6 +23,8 @@ module PostgreSQLApi
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+    config.action_cable.disable_request_forgery_protection = true
+    config.action_cable.url = "/cable"
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -40,7 +42,7 @@ module PostgreSQLApi
         resource '*',
         headers: :any,
         expose: ['access-token', 'expiry', 'token-type', 'uid', 'client','X-Total-Count', 'Link'],
-        methods: [:get, :post, :options, :delete, :put, :patch]
+        methods: [:get, :post, :options, :delete, :put, :patch, :head]
       end
     end
 
