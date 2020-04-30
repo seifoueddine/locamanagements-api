@@ -5,10 +5,10 @@ class Appointment < ApplicationRecord
   belongs_to :property
   belongs_to :contact
   after_create do
-    ChangeDashboardJob.perform_later self if important
+    ChangeAppointmentsJob.perform_later self
   end
 
   after_update do
-    ChangeDashboardJob.perform_later self if important
+    ChangeAppointmentsJob.perform_later self
   end
 end
