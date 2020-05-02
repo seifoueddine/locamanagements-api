@@ -4,6 +4,8 @@ class Appointment < ApplicationRecord
   belongs_to :user
   belongs_to :property
   belongs_to :contact
+
+
   after_create do
     ChangeAppointmentsJob.perform_later self
   end
