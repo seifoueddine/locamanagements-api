@@ -48,6 +48,7 @@ class Api::V1::ContractsController < ApplicationController
   def contract_params
     params.require(:contract).permit(:contract_type, :contract_details,
                                      :payment_frequency_number, :payment_frequency_name,
-                                     :payment_date, :start_date, :end_date)
+                                     :payment_date, :start_date, :end_date, :property_id,
+                                     :user_id, :contact_id, :slug_id)
   end
 end
