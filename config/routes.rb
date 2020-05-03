@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   
 
+
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
       resources :contacts
       resources :properties
       resources :appointments
+      resources :contracts
       get 'dashboard/appointments', to: 'dashboard#appointments'
       notify_to :users, api_mode: true, with_subscription: true
       mount ActionCable.server => '/cable'
