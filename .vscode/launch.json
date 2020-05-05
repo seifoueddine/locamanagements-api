@@ -18,9 +18,9 @@
             "type": "Ruby",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "useBundler": true,
+            "useBundler": false,
             "pathToBundler": "/c/Ruby26-x64/bin/bundle",
-            "pathToRDebugIDE": "C:/Ruby26-x64/lib/ruby/gems/2.6.0/gems/ruby-debug-ide-0.7.0",
+            "pathToRDebugIDE": "C:/Ruby26-x64/lib/ruby/gems/2.6.0/gems/ruby-debug-ide-0.7.2",
             "program": "${workspaceRoot}/bin/rails",
             "args": [
                 "server",

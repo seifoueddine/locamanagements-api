@@ -11,5 +11,4 @@ class User < ActiveRecord::Base
   has_many :appointments
   has_many :contracts
   mount_uploader :avatar, AvatarUploader
-  acts_as_target action_cable_allowed: true
 end
