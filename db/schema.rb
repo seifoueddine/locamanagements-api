@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_05_014315) do
+ActiveRecord::Schema.define(version: 2020_05_05_211555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,19 @@ ActiveRecord::Schema.define(version: 2020_05_05_014315) do
     t.index ["contact_id"], name: "index_contracts_on_contact_id"
     t.index ["slug_id"], name: "index_contracts_on_slug_id"
     t.index ["user_id"], name: "index_contracts_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "target_type", null: false
+    t.string "target_id", null: false
+    t.text "data"
+    t.bigint "notifier_id", null: false
+    t.datetime "opened_at"
+    t.boolean "read"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "slug_id", null: false
+    t.index ["slug_id"], name: "index_notifications_on_slug_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -149,6 +162,7 @@ ActiveRecord::Schema.define(version: 2020_05_05_014315) do
   add_foreign_key "contracts", "contacts"
   add_foreign_key "contracts", "slugs"
   add_foreign_key "contracts", "users"
+  add_foreign_key "notifications", "slugs"
   add_foreign_key "properties", "contacts"
   add_foreign_key "properties", "slugs"
   add_foreign_key "users", "slugs"
