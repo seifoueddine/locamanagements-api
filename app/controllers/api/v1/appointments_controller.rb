@@ -30,7 +30,8 @@ class Api::V1::AppointmentsController < ApplicationController
   def calendar_appointments
     slug_id = get_slug_id
     params[:slug_id] = slug_id
-    @appointments = Appointment.where(slug_id: params[:slug_id]).where(start_time: params[:firstDay]..params[:lastDay])
+    @appointments = Appointment.where(slug_id: params[:slug_id])
+                               .where(start_time: params[:firstDay]..params[:lastDay])
 
 
     json_string = AppointmentSerializer.new(@appointments, include: %i[property contact])
@@ -60,7 +61,13 @@ class Api::V1::AppointmentsController < ApplicationController
 
   # PATCH/PUT /appointments/1
   def update
+    slug_id = get_slug_id
     if @appointment.update(appointment_params)
+      if @appointment.important
+      users = User.where(slug_id: slug_id)
+      users_id = users.collect(&:email)
+      users_id.map { |id| create_notification('update appointment', id, current_user.uid, @appointment )}
+      end
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_entity
