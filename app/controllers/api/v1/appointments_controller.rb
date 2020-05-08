@@ -54,7 +54,7 @@ class Api::V1::AppointmentsController < ApplicationController
     if @appointment.save
 
       if @appointment.important
-        users = User.where(slug_id: slug_id)
+        users = User.where(slug_id: slug_id, role: 'admin')
         users_id = users.collect(&:email)
         users_id.map { |id| create_notification('create appointment', id, current_user.uid, @appointment )}
       end
@@ -70,7 +70,7 @@ class Api::V1::AppointmentsController < ApplicationController
     slug_id = get_slug_id
     if @appointment.update(appointment_params)
       if @appointment.important
-      users = User.where(slug_id: slug_id)
+      users = User.where(slug_id: slug_id, role: 'admin')
       users_id = users.collect(&:email)
       users_id.map { |id| create_notification('update appointment', id, current_user.uid, @appointment )}
       end
