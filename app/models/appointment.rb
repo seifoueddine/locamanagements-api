@@ -8,9 +8,11 @@ class Appointment < ApplicationRecord
 
   after_create do
     ChangeAppointmentsJob.perform_later self
+    NotificationsJob.perform_later 'create_appointment' if important
   end
 
   after_update do
     ChangeAppointmentsJob.perform_later self
+    NotificationsJob.perform_later 'update_appointment' if important
   end
 end

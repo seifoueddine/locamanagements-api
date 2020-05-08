@@ -51,8 +51,14 @@ class Api::V1::AppointmentsController < ApplicationController
     slug_id = get_slug_id
     params[:slug_id] = slug_id
     @appointment = Appointment.new(appointment_params)
-
     if @appointment.save
+
+      if @appointment.important
+        users = User.where(slug_id: slug_id)
+        users_id = users.collect(&:email)
+        users_id.map { |id| create_notification('create appointment', id, current_user.uid, @appointment )}
+      end
+
       render json: @appointment, status: :created
     else
       render json: @appointment.errors, status: :unprocessable_entity
