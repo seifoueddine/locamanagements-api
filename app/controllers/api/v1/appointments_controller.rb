@@ -50,6 +50,10 @@ class Api::V1::AppointmentsController < ApplicationController
   def create
     slug_id = get_slug_id
     params[:slug_id] = slug_id
+    date_params = params[:start_time].to_datetime
+    if date_params < Date.today
+      render json: { code: 'E002', message: " Appointment date can't be less than today"}, status: :not_acceptable
+    else
     @appointment = Appointment.new(appointment_params)
     if @appointment.save
 
@@ -63,11 +67,16 @@ class Api::V1::AppointmentsController < ApplicationController
     else
       render json: @appointment.errors, status: :unprocessable_entity
     end
+    end
   end
 
   # PATCH/PUT /appointments/1
   def update
     slug_id = get_slug_id
+    date_params = params[:start_time].to_datetime
+    if date_params < Date.today
+      render json: { code: 'E002', message: " Appointment date can't be less than today"}, status: :not_acceptable
+    else
     if @appointment.update(appointment_params)
       if @appointment.important
       users = User.where(slug_id: slug_id, role: 'admin')
@@ -77,6 +86,7 @@ class Api::V1::AppointmentsController < ApplicationController
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_entity
+    end
     end
   end
 
@@ -93,7 +103,7 @@ class Api::V1::AppointmentsController < ApplicationController
     render json: {
         code: 'E001',
         message: 'This appointment has a property'
-    },  status: 406
+    },  status: :not_acceptable
 
 
 

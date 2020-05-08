@@ -70,8 +70,8 @@ class Api::V1::ContactsController < ApplicationController
 
   rescue ActiveRecord::InvalidForeignKey => e
   render json: {
-      code: 'E001',
-      message: 'This contact has a property'
+      code: 'E003',
+      message: 'This owner has a property'
   },  status: 406
 
 
