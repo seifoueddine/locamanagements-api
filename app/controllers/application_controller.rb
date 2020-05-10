@@ -5,17 +5,19 @@ class ApplicationController < ActionController::API
 
   private
 
-  def create_notification(target_type, target_id, notifier_id, data)
+  def create_notification(target_type, target_id, data)
 
     json_string = AppointmentSerializer.new(data, include: %i[property contact])
                                        .serialized_json
 
     @notification = Notification.new
-    @notification.notifier_id = notifier_id
+    @notification.notifier_id = current_user.uid
     @notification.target_type = target_type
     @notification.target_id = target_id
     @notification.data = json_string
     @notification.slug_id = @slug_id
+    @notification.notifier_avatar = current_user.avatar
+    @notification.notifier_name = current_user.name
     @notification.save!
   end
 

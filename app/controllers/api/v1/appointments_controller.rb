@@ -41,7 +41,7 @@ class Api::V1::AppointmentsController < ApplicationController
 
   # GET /appointments/1
   def show
-    json_string = AppointmentSerializer.new(@appointment, include: %i[properties contacts])
+    json_string = AppointmentSerializer.new(@appointment, include: %i[property contact])
                                        .serialized_json
     render json: json_string
   end
@@ -60,7 +60,7 @@ class Api::V1::AppointmentsController < ApplicationController
       if @appointment.important
         users = User.where(slug_id: slug_id, role: 'admin')
         users_id = users.collect(&:email)
-        users_id.map { |id| create_notification('create appointment', id, current_user.uid, @appointment )}
+        users_id.map { |id| create_notification('create appointment', id, @appointment )}
       end
 
       render json: @appointment, status: :created
@@ -81,7 +81,7 @@ class Api::V1::AppointmentsController < ApplicationController
       if @appointment.important
       users = User.where(slug_id: slug_id, role: 'admin')
       users_id = users.collect(&:email)
-      users_id.map { |id| create_notification('update appointment', id, current_user.uid, @appointment )}
+      users_id.map { |id| create_notification('update appointment', id, @appointment )}
       end
       render json: @appointment
     else
