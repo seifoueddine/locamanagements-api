@@ -3,9 +3,25 @@ class Api::V1::ContractsController < ApplicationController
 
   # GET /contracts
   def index
-    @contracts = Contract.all
+    slug_id = get_slug_id
+    @contracts = if params[:slug_id].blank?
+                   Contract.order(order_and_direction).page(page).per(per_page)
+                 elsif params[:search].blank?
+                  Contract.order(order_and_direction).page(page).per(per_page)
+                          .where(slug_id: slug_id)
+                 else
 
-    render json: @contracts
+                 Contract.order(order_and_direction).page(page).per(per_page)
+                         .where(slug_id: slug_id)
+                         .where(['lower(contract_type) like ?
+                            or lower(contract_details) like ?',
+                           '%' + params[:search].downcase + '%',
+                           '%' + params[:search].downcase + '%',
+                          ])
+                 end
+    set_pagination_headers :contracts
+    json_string = ContractSerializer.new(@contracts, include: %i[contact properties]).serialized_json
+    render  json: json_string
   end
 
   # GET /contracts/1
@@ -18,7 +34,7 @@ class Api::V1::ContractsController < ApplicationController
     @contract = Contract.new(contract_params)
 
     if @contract.save
-      render json: @contract, status: :created, location: @contract
+      render json: @contract, status: :created
     else
       render json: @contract.errors, status: :unprocessable_entity
     end
@@ -46,9 +62,9 @@ class Api::V1::ContractsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def contract_params
-    params.require(:contract).permit(:contract_type, :contract_details,
-                                     :payment_frequency_number, :payment_frequency_name,
-                                     :payment_date, :start_date, :end_date, :property_id,
-                                     :user_id, :contact_id, :slug_id)
+    params.permit(:contract_type, :contract_details,
+                         :payment_frequency_number, :payment_frequency_name,
+                         :payment_date, :start_date, :end_date, :property_id,
+                         :user_id, :contact_id, :slug_id)
   end
 end

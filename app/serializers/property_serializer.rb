@@ -9,4 +9,5 @@ class PropertySerializer
              :has_sanitary, :description
   # belongs_to :slug
   belongs_to :contact
+  belongs_to :contract
 end

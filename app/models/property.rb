@@ -3,5 +3,6 @@ class Property < ApplicationRecord
   belongs_to :slug
   belongs_to :contact
   has_many :appointments
+  belongs_to :contract, optional: true
   mount_uploaders :images, ImagesUploader
 end
