@@ -1,14 +1,15 @@
 class Api::V1::ContractsController < ApplicationController
-  before_action :set_contract, only: %i[show update destroy]
+  before_action :set_contract, only: %i[show update]
 
   # GET /contracts
   def index
     slug_id = get_slug_id
+    params[:slug_id] = slug_id
     @contracts = if params[:slug_id].blank?
                    Contract.order(order_and_direction).page(page).per(per_page)
                  elsif params[:search].blank?
-                  Contract.order(order_and_direction).page(page).per(per_page)
-                          .where(slug_id: slug_id)
+                   Contract.order(order_and_direction).page(page).per(per_page)
+                           .where(slug_id: slug_id)
                  else
 
                  Contract.order(order_and_direction).page(page).per(per_page)
@@ -51,7 +52,13 @@ class Api::V1::ContractsController < ApplicationController
 
   # DELETE /contracts/1
   def destroy
-    @contract.destroy
+    ids = params[:id].split(',')
+    if ids.length != 1
+      Contract.where(id: params[:id].split(',')).destroy_all
+    else
+      Contract.find(params[:id]).destroy
+    end
+
   end
 
   private
