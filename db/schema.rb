@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_000504) do
+ActiveRecord::Schema.define(version: 2020_05_10_224928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,7 +112,9 @@ ActiveRecord::Schema.define(version: 2020_05_10_000504) do
     t.boolean "has_swimming_pool"
     t.boolean "has_sanitary"
     t.text "description"
+    t.bigint "contract_id"
     t.index ["contact_id"], name: "index_properties_on_contact_id"
+    t.index ["contract_id"], name: "index_properties_on_contract_id"
     t.index ["slug_id"], name: "index_properties_on_slug_id"
   end
 
@@ -166,6 +168,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_000504) do
   add_foreign_key "contracts", "users"
   add_foreign_key "notifications", "slugs"
   add_foreign_key "properties", "contacts"
+  add_foreign_key "properties", "contracts"
   add_foreign_key "properties", "slugs"
   add_foreign_key "users", "slugs"
 end
