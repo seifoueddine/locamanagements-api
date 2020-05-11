@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :users
       put 'users/change_password/:id', to: 'users#change_password'
       get 'appointments/calendar_appointments', to: 'appointments#calendar_appointments'
+      get 'properties/multiple_properties', to: 'properties#multiple_properties'
       resources :contacts
       resources :properties
       resources :appointments

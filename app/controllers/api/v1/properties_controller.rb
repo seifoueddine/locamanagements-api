@@ -98,7 +98,24 @@ class Api::V1::PropertiesController < ApplicationController
         code:  'E004',
         message: 'This property has a contract or appointment'
     },  status: 406
+  end  
+  
+  def multiple_properties
+    ids = params[:ids].split(',')
+    if ids.length != 1
+      @properties =  Property.where(id: params[:ids].split(','))
+      json_string = PropertySerializer.new(@properties, include: [:contact])
+                                      .serialized_json
+    else
+      @property = Property.find(params[:ids])
+      json_string = PropertySerializer.new(@property, include: [:contact])
+                                      .serialized_json
+    end
+
+
+    render json: json_string
   end
+  
 
   private
 
