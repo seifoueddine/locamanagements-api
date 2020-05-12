@@ -32,6 +32,8 @@ class Api::V1::ContractsController < ApplicationController
 
   # POST /contracts
   def create
+    slug_id = get_slug_id
+    params[:slug_id] = slug_id
     @contract = Contract.new(contract_params)
 
     if @contract.save
