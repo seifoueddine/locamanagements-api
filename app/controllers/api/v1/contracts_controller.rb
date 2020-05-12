@@ -27,7 +27,9 @@ class Api::V1::ContractsController < ApplicationController
 
   # GET /contracts/1
   def show
-    render json: @contract
+    json_string = ContractSerializer.new(@contract, include: %i[contact properties])
+                                    .serialized_json
+    render json: json_string
   end
 
   # POST /contracts
