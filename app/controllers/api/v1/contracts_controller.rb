@@ -37,7 +37,7 @@ class Api::V1::ContractsController < ApplicationController
     slug_id = get_slug_id
     params[:slug_id] = slug_id
     @contract = Contract.new(contract_params)
-
+    @contract.payment_periods = params[:payment_periods]
     if @contract.save
       render json: @contract, status: :created
     else
@@ -76,6 +76,6 @@ class Api::V1::ContractsController < ApplicationController
     params.permit(:contract_type, :contract_details,
                          :payment_frequency_number, :payment_frequency_name,
                          :payment_date, :start_date, :end_date, :property_id,
-                         :user_id, :contact_id, :slug_id)
+                         :user_id, :contact_id, :slug_id, :payment_periods)
   end
 end
