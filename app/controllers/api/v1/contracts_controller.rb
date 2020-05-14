@@ -56,7 +56,7 @@ class Api::V1::ContractsController < ApplicationController
     end
     if @contract.update(contract_params)
       json_string = ContractSerializer.new(@contract, include: %i[contact properties])
-                        .serialized_json
+                                      .serialized_json
       render json: json_string
     else
       render json: @contract.errors, status: :unprocessable_entity
@@ -67,9 +67,26 @@ class Api::V1::ContractsController < ApplicationController
   def destroy
     ids = params[:id].split(',')
     if ids.length != 1
-      Contract.where(id: params[:id].split(',')).destroy_all
+      @contracts_to_delete =  Contract.where(id: params[:id].split(','))
+      @contracts_to_delete.map do |contract|
+        @property = Property.find_by_id(contract.property_id)
+        @property.contract_id = nil
+        @property.save!
+      end
+      @contracts_to_delete.destroy_all 
     else
-      Contract.find(params[:id]).destroy
+      @contract = Contract.find_by_id(params[:id])
+      property_id = @contract.property_id
+      @property = Property.find_by_id(property_id)
+      @property.contract_id = nil
+      @property.save!
+      @contract.destroy
+      unless @contract.destroyed?
+        @property = Property.find_by_id(@contract.property_id)
+        @property.contract_id = @contract.id
+        @property.save!
+      end
+
     end
 
   end
