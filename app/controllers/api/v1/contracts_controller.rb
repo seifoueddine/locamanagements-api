@@ -38,7 +38,11 @@ class Api::V1::ContractsController < ApplicationController
     params[:slug_id] = slug_id
     @contract = Contract.new(contract_params)
     @contract.payment_periods = params[:payment_periods]
+
     if @contract.save
+      @property = Property.find_by_id(@contract.property_id)
+      @property.contract_id = @contract.id
+      @property.save!
       render json: @contract, status: :created
     else
       render json: @contract.errors, status: :unprocessable_entity
@@ -47,8 +51,13 @@ class Api::V1::ContractsController < ApplicationController
 
   # PATCH/PUT /contracts/1
   def update
+    unless params[:payment_periods].blank?
+      @contract.payment_periods = params[:payment_periods]
+    end
     if @contract.update(contract_params)
-      render json: @contract
+      json_string = ContractSerializer.new(@contract, include: %i[contact properties])
+                        .serialized_json
+      render json: json_string
     else
       render json: @contract.errors, status: :unprocessable_entity
     end
