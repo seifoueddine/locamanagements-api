@@ -125,6 +125,7 @@ GEM
       image_processing (~> 1.1)
       mimemagic (>= 0.3.0)
       mini_mime (>= 0.1.3)
+    chronic (0.10.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
@@ -266,6 +267,8 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     zeitwerk (2.3.0)
 
 PLATFORMS
@@ -295,6 +298,7 @@ DEPENDENCIES
   rspec-support!
   rswag
   tzinfo-data
+  whenever
 
 RUBY VERSION
    ruby 2.6.5p114

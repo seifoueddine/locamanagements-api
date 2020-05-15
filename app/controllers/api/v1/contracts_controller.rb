@@ -73,7 +73,7 @@ class Api::V1::ContractsController < ApplicationController
         @property.contract_id = nil
         @property.save!
       end
-      @contracts_to_delete.destroy_all 
+      @contracts_to_delete.destroy_all
     else
       @contract = Contract.find_by_id(params[:id])
       property_id = @contract.property_id
