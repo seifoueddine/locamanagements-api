@@ -15,22 +15,23 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    namespace :v1 do
-      resources :articles
-      resources :slugs
-      resources :users
-      put 'users/change_password/:id', to: 'users#change_password'
-      get 'appointments/calendar_appointments', to: 'appointments#calendar_appointments'
-      get 'properties/multiple_properties', to: 'properties#multiple_properties'
-      resources :contacts
-      resources :properties
-      resources :appointments
-      resources :contracts
-      resources :notifications
-      get 'dashboard/appointments', to: 'dashboard#appointments'
-      mount ActionCable.server => '/cable'
-    end
-   end
+     namespace :v1 do
+       resources :articles
+       resources :slugs
+       resources :users
+       put 'users/change_password/:id', to: 'users#change_password'
+       get 'appointments/calendar_appointments', to: 'appointments#calendar_appointments'
+       get 'properties/multiple_properties', to: 'properties#multiple_properties'
+       resources :contacts
+       resources :properties
+       resources :appointments
+       resources :contracts
+       resources :notifications
+       get 'dashboard/appointments', to: 'dashboard#appointments'
+       get 'dashboard/contacts_properties_stat', to: 'dashboard#contacts_properties_stat'
+       mount ActionCable.server => '/cable'
+     end
+  end
 
 
 
