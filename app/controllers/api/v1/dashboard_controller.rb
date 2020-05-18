@@ -19,19 +19,17 @@ class  Api::V1::DashboardController < ApplicationController
   end
 
   def contacts_properties_stat
-    slug_id = 32
+    slug_id = get_slug_id
     properties_rented = Property.where(transaction_type: 'rent', slug_id: slug_id)
                                 .where.not(contract_id: nil).count
     properties_to_rent = Property.where(transaction_type: 'rent', slug_id: slug_id)
                                  .count
     all_clients = Contact.where(slug_id: slug_id, roles: 'client').count
     contracts = Contract.where(slug_id: slug_id)
-    all_tenant = contracts.uniq {|contract| contract['contact_id']}.count
+    all_tenant = contracts.uniq { |contract| contract['contact_id'] }.count
     all_owners = Contact.where(slug_id: slug_id, roles: 'owner').count
-
     properties = Property.where(slug_id: slug_id)
-    all_actif_owners = properties.uniq {|property| property['contact_id']}.count
-
+    all_actif_owners = properties.uniq { |property| property['contact_id'] }.count
     stats = { stats: { properties_rented: properties_rented,
                        properties_to_rent: properties_to_rent,
                        all_clients: all_clients,
