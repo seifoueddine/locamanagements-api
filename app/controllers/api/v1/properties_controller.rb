@@ -1,6 +1,6 @@
 class Api::V1::PropertiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_property, only: %i[show update]
+  before_action :set_property, only: %i[show update dup]
   # GET /properties
   def index
     slug_id = get_slug_id
@@ -88,15 +88,33 @@ class Api::V1::PropertiesController < ApplicationController
   def destroy
     ids = params[:id].split(',')
     if ids.length != 1
-      Property.where(id: params[:id].split(',')).destroy_all
+      properties = Property.where(id: params[:id].split(','))
+      properties.map do |pro|
+        if pro.contract_id.blank?
+          pro.destroy
+        else
+          render json: {
+              code:  'E005',
+              message: 'This property has a contract'
+          },  status: 406
+        end
+      end
     else
-      Property.find(params[:id]).destroy
+      property = Property.find(params[:id])
+      if property.contract_id.blank?
+        property.destroy
+      else
+        render json: {
+            code:  'E005',
+            message: 'This property has a contract'
+        },  status: 406
+      end
     end
 
   rescue ActiveRecord::InvalidForeignKey => e
     render json: {
         code:  'E004',
-        message: 'This property has a contract or appointment'
+        message: 'This property has a appointment'
     },  status: 406
   end  
   
@@ -113,6 +131,18 @@ class Api::V1::PropertiesController < ApplicationController
     end
 
 
+    render json: json_string
+  end
+
+  # GET /properties/1/dup
+  def dup
+    dup_property = @property.dup
+    dup_property.label = @property.label.to_s + dup_property.id.to_s
+    dup_property.contract_id = nil
+    dup_property.images = []
+    dup_property.save!
+    json_string = PropertySerializer.new(dup_property, include: [:contact])
+                                    .serialized_json
     render json: json_string
   end
   
