@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_175259) do
+ActiveRecord::Schema.define(version: 2020_05_21_041012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 2020_05_13_175259) do
     t.boolean "has_sanitary"
     t.text "description"
     t.bigint "contract_id"
+    t.decimal "lat", precision: 10, scale: 6
+    t.decimal "lng", precision: 10, scale: 6
     t.index ["contact_id"], name: "index_properties_on_contact_id"
     t.index ["contract_id"], name: "index_properties_on_contract_id"
     t.index ["slug_id"], name: "index_properties_on_slug_id"

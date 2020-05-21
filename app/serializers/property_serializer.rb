@@ -6,7 +6,7 @@ class PropertySerializer
              :agency_price, :transaction_type, :nbr_of_pieces,
              :is_furnished, :is_equipped, :has_elevator, :has_floors,
              :floor, :has_garage, :has_garden, :has_swimming_pool,
-             :has_sanitary, :description, :contract_id
+             :has_sanitary, :description, :contract_id, :lat, :lng
   # belongs_to :slug
   belongs_to :contact
   belongs_to :contract
