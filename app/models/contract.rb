@@ -12,4 +12,8 @@ class Contract < ApplicationRecord
   after_destroy do
     ContactsPropertiesStatsJob.perform_later 'delete'
   end
+
+  def payment_eriods
+    # code here
+  end
 end

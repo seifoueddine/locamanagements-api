@@ -39,5 +39,23 @@ class  Api::V1::DashboardController < ApplicationController
     render json: stats
   end
 
+  def unpaid_contract
+    after_7days = Date.today + params[:days].to_i
+
+    slug_id = get_slug_id
+    unpaid_contract = []
+    contracts = Contract.where(slug_id: slug_id)
+    contracts.map{|contract|
+                   contract.payment_periods.map{|per|
+                                                 if  per['is_paid'] === false && per['start'].to_datetime < after_7days
+                                                   unpaid_contract << contract
+                                                 end
+                                               }
+                 }
+    unpaid_contract = unpaid_contract.uniq { |contract| contract[:id]}
+    json_string = ContractSerializer.new(unpaid_contract, include: %i[contact properties]).serialized_json
+    render json: json_string
+  end
+
 
 end

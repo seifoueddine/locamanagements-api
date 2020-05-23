@@ -30,6 +30,7 @@ Rails.application.routes.draw do
        resources :notifications
        get 'dashboard/appointments', to: 'dashboard#appointments'
        get 'dashboard/contacts_properties_stat', to: 'dashboard#contacts_properties_stat'
+       get 'dashboard/unpaid_contract', to: 'dashboard#unpaid_contract'
        mount ActionCable.server => '/cable'
      end
   end
