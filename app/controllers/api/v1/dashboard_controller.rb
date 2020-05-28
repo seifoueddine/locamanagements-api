@@ -10,9 +10,11 @@ class  Api::V1::DashboardController < ApplicationController
     important_count = @appointments.where(important: true).count
     visit_count = @appointments.where(service: 'visit').count
     call_count = @appointments.where(service: 'call').count
+    exceeded_count = Appointment.where(slug_id: slug_id).where('start_time < ?', Date.today).count
     stats = { stats: { important_count: important_count,
                        visit_count: visit_count,
-                       call_count: call_count } }
+                       call_count: call_count,
+                       exceeded_count: exceeded_count} }
     json_string = AppointmentSerializer.new(@appointments)
 
     render json: [json_string, stats]
