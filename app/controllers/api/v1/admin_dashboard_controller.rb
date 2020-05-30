@@ -5,11 +5,12 @@ class Api::V1::AdminDashboardController < ApplicationController
     agent_users = User.where(role: 'agent').count
     properties_rent = Property.where(transaction_type: 'rent').count
     properties_sell = Property.where(transaction_type: 'sell').count
+    slugs = Slug.where.not(name: 'ADMIN').count
     stats = { stats: { admin_users: admin_users,
                        agent_users: agent_users,
                        properties_rent: properties_rent,
                        properties_sell: properties_sell,
-                     } }
+                       agencies: slugs } }
     render json: stats
   end
 end
