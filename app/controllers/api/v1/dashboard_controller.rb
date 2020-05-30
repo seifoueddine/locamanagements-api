@@ -1,5 +1,5 @@
 class  Api::V1::DashboardController < ApplicationController
-
+  before_action :authenticate_user!
 
   def appointments
     slug_id = get_slug_id
