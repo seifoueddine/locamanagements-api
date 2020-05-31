@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
   has_many :appointments
   has_many :contracts
   mount_uploader :avatar, AvatarUploader
+
+  def token_validation_response
+    as_json(include: :slug)
+  end
 end

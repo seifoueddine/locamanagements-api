@@ -1,5 +1,6 @@
 class Api::V1::SlugsController < ApplicationController
-  before_action :set_slug, only: [:show, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_slug, only: %i[show update destroy]
 
   # GET /slugs
   def index
@@ -40,13 +41,14 @@ class Api::V1::SlugsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_slug
-      @slug = Slug.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def slug_params
-      params.require(:slug).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_slug
+    @slug = Slug.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def slug_params
+    params.require(:slug).permit(:name)
+  end
 end

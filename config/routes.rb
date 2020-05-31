@@ -32,6 +32,7 @@ Rails.application.routes.draw do
        get 'dashboard/contacts_properties_stat', to: 'dashboard#contacts_properties_stat'
        get 'dashboard/unpaid_contract', to: 'dashboard#unpaid_contract'
        get 'admin_dashboard/stats_count', to: 'admin_dashboard#stats_count'
+       post 'automatic_inscription/demo_inscription', to: 'automatic_inscription#demo_inscription'
        mount ActionCable.server => '/cable'
      end
   end
