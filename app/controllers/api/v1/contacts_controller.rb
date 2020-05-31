@@ -9,7 +9,7 @@ class Api::V1::ContactsController < ApplicationController
     if params[:all].blank?
       if params[:search].blank?
         @contacts = Contact.order(order_and_direction).page(page).per(per_page)
-                           .where(slug_id: params[:slug_id], roles: params[:role])
+                           .where(slug_id: slug_id, roles: params[:role])
       else
         @contacts = Contact.order(order_and_direction).page(page).per(per_page)
                            .where(slug_id: params[:slug_id])
@@ -23,7 +23,7 @@ class Api::V1::ContactsController < ApplicationController
       end
       set_pagination_headers :contacts
     else
-      @contacts = Contact.all.where(roles: params[:role])
+      @contacts = Contact.all.where(slug_id: slug_id, roles: params[:role])
     end
     json_string = ContactSerializer.new(@contacts, include: [:properties])
                                    .serialized_json

@@ -10,7 +10,7 @@ class Api::V1::PropertiesController < ApplicationController
     greaterThan = 0
     lessThan = 999999999
     @properties = if params[:search].blank? && params[:transactionType].blank? && params[:propertyType].blank? && params[:greaterThan].blank? && params[:lessThan].blank?
-                    Property.order(order_and_direction).page(page).per(per_page)
+                    Property.joins(:contact).where(slug_id: slug_id).order(order_and_direction).page(page).per(per_page)
                   elsif params[:search].blank?
 
                     unless params[:transactionType].blank?
@@ -34,12 +34,12 @@ class Api::V1::PropertiesController < ApplicationController
                     propertyTypeParams =  propertyTypeArray.length > 1 ? propertyTypeArray : params[:propertyType]
                     Property.joins(:contact).order(order_and_direction)
                             .page(page).per(per_page)
-                            .where(transaction_type: transactionTypeParams, property_type: propertyTypeParams,
+                            .where(slug_id: slug_id, transaction_type: transactionTypeParams, property_type: propertyTypeParams,
                                    agency_price: greaterThan..lessThan)
 
                   else
                     Property.joins(:contact).order(order_and_direction)
-                            .page(page).per(per_page)
+                            .page(page).per(per_page).where(slug_id: slug_id)
                             .where(['lower(label) like ?
                                      or lower(contacts.name) like ?',
                                      '%' + params[:search].downcase + '%',
