@@ -4,7 +4,7 @@ class Api::V1::AutomaticInscriptionController < ApplicationController
     slug_name = params[:slug_name]
     email = params[:email]
     name =  params[:name]
-    @slug = Slug.create(name: slug_name)
+    @slug = Slug.create(name: slug_name, subscription_type: '1', subscription_end: Date.today + 30 )
     @slug.save!
     if @slug.save
       password = SecureRandom.urlsafe_base64(6)
