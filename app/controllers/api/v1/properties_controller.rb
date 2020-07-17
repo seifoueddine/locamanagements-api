@@ -162,6 +162,6 @@ class Api::V1::PropertiesController < ApplicationController
                   :agency_price, :transaction_type, :nbr_of_pieces,
                   :is_furnished, :is_equipped, :has_elevator, :has_floors,
                   :floor, :has_garage, :has_garden, :has_swimming_pool,
-                  :has_sanitary, :description, :contract_id,:lat, :lng)
+                  :has_sanitary, :description, :contract_id,:lat, :lng,:available,:available_start_date,:available_end_date)
   end
 end
