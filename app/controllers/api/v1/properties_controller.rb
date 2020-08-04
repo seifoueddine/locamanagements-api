@@ -78,7 +78,10 @@ class Api::V1::PropertiesController < ApplicationController
   # PATCH/PUT /properties/1
   def update
     if @property.update(property_params)
-      render json: @property
+      json_string = PropertySerializer.new(@property, include: [:contact])
+                                    .serialized_json
+    render json: json_string
+      # render json: @property
     else
       render json: @property.errors, status: :unprocessable_entity
     end
