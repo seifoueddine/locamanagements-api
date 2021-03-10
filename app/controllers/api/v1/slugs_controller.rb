@@ -49,6 +49,6 @@ class Api::V1::SlugsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def slug_params
-    params.require(:slug).permit(:name, :wilaya, :city, :subscription_type, :subscription_end)
+    params.permit(:name, :wilaya, :city, :subscription_type, :subscription_end,:logo)
   end
 end
