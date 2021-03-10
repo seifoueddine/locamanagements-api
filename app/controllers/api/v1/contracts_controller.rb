@@ -21,14 +21,14 @@ class Api::V1::ContractsController < ApplicationController
                           ])
                  end
     set_pagination_headers :contracts
-    json_string = ContractSerializer.new(@contracts, include: %i[contact properties]).serialized_json
+    json_string = ContractSerializer.new(@contracts, include: %i[contact properties]).serializable_hash.to_json
     render  json: json_string
   end
 
   # GET /contracts/1
   def show
     json_string = ContractSerializer.new(@contract, include: %i[contact properties])
-                                    .serialized_json
+                                    .serializable_hash.to_json
     render json: json_string
   end
 
@@ -56,7 +56,7 @@ class Api::V1::ContractsController < ApplicationController
     end
     if @contract.update(contract_params)
       json_string = ContractSerializer.new(@contract, include: %i[contact properties])
-                                      .serialized_json
+                                      .serializable_hash.to_json
       render json: json_string
     else
       render json: @contract.errors, status: :unprocessable_entity

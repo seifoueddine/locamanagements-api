@@ -50,7 +50,7 @@ class Api::V1::PropertiesController < ApplicationController
 
     set_pagination_headers :properties
     json_string = PropertySerializer.new(@properties, include: [:contact])
-                                    .serialized_json
+                                    .serializable_hash.to_json
     render json: json_string
 
   end
@@ -58,7 +58,7 @@ class Api::V1::PropertiesController < ApplicationController
   # GET /properties/1
   def show
     json_string = PropertySerializer.new(@property, include: [:contact])
-                                    .serialized_json
+                                    .serializable_hash.to_json
     render json: json_string
   end
 
@@ -79,7 +79,7 @@ class Api::V1::PropertiesController < ApplicationController
   def update
     if @property.update(property_params)
       json_string = PropertySerializer.new(@property, include: [:contact])
-                                    .serialized_json
+                                    .serializable_hash.to_json
     render json: json_string
       # render json: @property
     else
@@ -126,11 +126,11 @@ class Api::V1::PropertiesController < ApplicationController
     if ids.length != 1
       @properties =  Property.where(id: params[:ids].split(','))
       json_string = PropertySerializer.new(@properties, include: [:contact])
-                                      .serialized_json
+                                      .serializable_hash.to_json
     else
       @property = Property.find(params[:ids])
       json_string = PropertySerializer.new(@property, include: [:contact])
-                                      .serialized_json
+                                      .serializable_hash.to_json
     end
 
 
@@ -146,7 +146,7 @@ class Api::V1::PropertiesController < ApplicationController
     dup_property.images = []
     dup_property.save!
     json_string = PropertySerializer.new(dup_property, include: [:contact])
-                                    .serialized_json
+                                    .serializable_hash.to_json
     render json: json_string
   end
   

@@ -7,7 +7,7 @@ class Api::V1::NotificationsController < ApplicationController
     @notifications = Notification.where(slug_id: slug_id, target_id: params[:user_id])
                                  .order('created_at DESC')
     json_string = NotificationSerializer.new(@notifications)
-                                       .serialized_json
+                                       .serializable_hash.to_json
     render json: json_string
   end
 
