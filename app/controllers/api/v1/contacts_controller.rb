@@ -26,14 +26,14 @@ class Api::V1::ContactsController < ApplicationController
       @contacts = Contact.all.where(slug_id: slug_id, roles: params[:role])
     end
     json_string = ContactSerializer.new(@contacts, include: [:properties])
-                                   .serialized_json
+                                   .serializable_hash.to_json
     render json: json_string
   end
 
   # GET /contacts/1
   def show
     json_string = ContactSerializer.new(@contact, include: [:properties])
-                                   .serialized_json
+                                   .serializable_hash.to_json
     render json: json_string
   end
 

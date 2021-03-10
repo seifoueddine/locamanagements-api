@@ -22,7 +22,7 @@ class Api::V1::AppointmentsController < ApplicationController
     set_pagination_headers :appointments
 
     json_string = AppointmentSerializer.new(@appointments, include: %i[property contact])
-                                       .serialized_json
+                                       .serializable_hash.to_json
     render json: json_string
   end
 
@@ -35,14 +35,14 @@ class Api::V1::AppointmentsController < ApplicationController
 
 
     json_string = AppointmentSerializer.new(@appointments, include: %i[property contact])
-                                       .serialized_json
+                                       .serializable_hash.to_json
     render json: json_string
   end
 
   # GET /appointments/1
   def show
     json_string = AppointmentSerializer.new(@appointment, include: %i[property contact])
-                                       .serialized_json
+                                       .serializable_hash.to_json
     render json: json_string
   end
 

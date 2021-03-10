@@ -55,7 +55,7 @@ class  Api::V1::DashboardController < ApplicationController
                                                }
                  }
     unpaid_contract = unpaid_contract.uniq { |contract| contract[:id]}
-    json_string = ContractSerializer.new(unpaid_contract, include: %i[contact properties]).serialized_json
+    json_string = ContractSerializer.new(unpaid_contract, include: %i[contact properties]).serializable_hash.to_json
     render json: json_string
   end
 

@@ -22,13 +22,13 @@ class Api::V1::UsersController < ApplicationController
                                     ])
              end
     set_pagination_headers :users
-    json_string = UserSerializer.new(@users, include: [:slug]).serialized_json
+    json_string = UserSerializer.new(@users, include: [:slug]).serializable_hash.to_json
     render  json: json_string
   end
 
   # GET /users/1
   def show
-    json_string = UserSerializer.new(@user, include: [:slug]).serialized_json
+    json_string = UserSerializer.new(@user, include: [:slug]).serializable_hash.to_json
     render  json: json_string
   end
 
