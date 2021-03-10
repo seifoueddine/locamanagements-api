@@ -43,8 +43,11 @@ group :development, :test do
 end
 
 group :development do
-
-gem 'rswag'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-db-tasks'
+  gem 'rswag'
 end
 
 group :test do
