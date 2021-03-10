@@ -9,10 +9,7 @@ set :repo_url, 'git@github.com:seifoueddine/locamanagements-api.git'
 # FIXME: add location on the server here
 set :deploy_to, '/home/ubuntu/loca-management-api'
 set :branch, ENV['BRANCH'] if ENV['BRANCH']
-set :ssh_options, {
-    config: false
-
-}
+set :ssh_options, { keys: %w[tmp/keylocaapi20032225.pem] }
 set :linked_files, %w[config/database.yml config/master.key]
 set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system]
 
