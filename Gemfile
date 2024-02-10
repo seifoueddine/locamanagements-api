@@ -24,6 +24,8 @@ gem 'jsonapi-serializer'
 # gem 'image_processing', '~> 1.2'
 gem 'carrierwave', '~> 2.1'
 #gem 'mini_magick'
+gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
+
 gem 'rmagick'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -46,7 +48,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
-  gem 'capistrano-db-tasks'
+  #gem 'capistrano-db-tasks'
   gem 'rswag'
 end
 

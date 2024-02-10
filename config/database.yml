@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: postgreSQL_api_development
+  database: loca_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -32,7 +32,7 @@ development:
   username: postgres
 
   # The password associated with the postgres role (username).
-  password: RootRoot123
+  password: 'root'
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have

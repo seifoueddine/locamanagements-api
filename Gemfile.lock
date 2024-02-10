@@ -7,6 +7,13 @@ GIT
       i18n (>= 1.6, < 2)
 
 GIT
+  remote: https://github.com/mimemagicrb/mimemagic.git
+  revision: 01f92d86d15d85cfd0f20dabd025dcbd36a8a60f
+  ref: 01f92d86d15d85cfd0f20dabd025dcbd36a8a60f
+  specs:
+    mimemagic (0.3.5)
+
+GIT
   remote: https://github.com/rspec/rspec-core.git
   revision: e7c5d030966a7e8dad3e0a67c61920c4f2437c15
   branch: master
@@ -127,8 +134,6 @@ GEM
       sshkit (>= 1.9.0)
     capistrano-bundler (2.0.1)
       capistrano (~> 3.1)
-    capistrano-db-tasks (0.6)
-      capistrano (>= 3.0.0)
     capistrano-rails (1.6.1)
       capistrano (~> 3.1)
       capistrano-bundler (>= 1.1, < 3)
@@ -203,7 +208,6 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.5)
     mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.8.4)
@@ -322,7 +326,6 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capistrano
-  capistrano-db-tasks
   capistrano-rails
   capistrano-rbenv
   carrierwave (~> 2.1)
@@ -332,6 +335,7 @@ DEPENDENCIES
   faker!
   jsonapi-serializer
   kaminari
+  mimemagic!
   pg (>= 0.18, < 2.0)
   pry-rails
   puma (~> 4.3)
@@ -353,4 +357,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.1.4
+   2.4.18

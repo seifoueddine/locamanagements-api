@@ -166,9 +166,6 @@ ActiveRecord::Schema.define(version: 2021_03_09_200631) do
     t.string "city"
     t.string "theme_color"
     t.string "language"
-    t.string "registration_number"
-    t.string "last_name"
-    t.string "first_name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
